@@ -1,1 +1,76 @@
-'hi' 
+# Editor settings
+.idea/
+.vscode/
+.venv/
+
+# Environment files (except example)
+.env
+.env.*
+!.envs/.env.example
+
+# Data and logs
+data/
+logs/
+media/
+samples/
+
+# Ignore text files, except requirements
+*.txt
+!requirements.txt
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+
+
+# other's
