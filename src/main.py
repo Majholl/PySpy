@@ -1,9 +1,9 @@
-import random
+import random, json
 from typing import Optional
-
+from os import path
 from fastapi import FastAPI , WebSocket, status 
 from fastapi import Response
-
+import os
 
 from .utils import Notifall
 
@@ -14,8 +14,8 @@ app = FastAPI(redoc_url='/uidoc')
 
 
 OwnerData = {
-    'username':'nameless',
-    'password':'nameless',
+    'username':'admin',
+    'password':'admin',
     'ownertoken':None}
 
 
@@ -29,7 +29,8 @@ async def GetData(token:str, response:Response) -> Optional[dict]:
         if token == OwnerData['ownertoken']:
             response.status_code = status.HTTP_200_OK
             data = {'settings': GameRoom[OwnerData['ownertoken']]['settings'],
-                    'users': GameRoom[OwnerData['ownertoken']]['users']
+                    'users': GameRoom[OwnerData['ownertoken']]['users'],
+                    
                     }
             
             return {'Message': 'Data is ready.',
@@ -54,9 +55,10 @@ def LoginOwner(username:str , password:str, response:Response) -> dict:
             if OwnerData['password'] == password:
                 ownerToken = ''.join(random.choice(["0","1","2","3","4","5","6","7","8","9"]) for _ in range(6))
                 OwnerData['ownertoken'] = ownerToken
-                GameRoom[ownerToken] = {'settings':{'spycount':0, 'ownerplay':False},
+                GameRoom[ownerToken] = {'settings':{'spycount':1, 'ownerplay':False},
                                         'users':{},
                                         'usersws':[],
+                                        'spys' : []
                                         }
                 GameRoom[OwnerData['ownertoken']]['users'][ownerToken] = username
                 response.status_code = status.HTTP_200_OK
@@ -141,12 +143,14 @@ async def OwnerIn(token:str, ownerin:bool, response:Response) -> dict:
             if ownerin :
                 GameRoom[OwnerData['ownertoken']]['settings']['ownerplay'] = True
                 response.status_code = status.HTTP_200_OK
+            else:
+                GameRoom[OwnerData['ownertoken']]['settings']['ownerplay'] = False
+                response.status_code = status.HTTP_200_OK
                 
-                return {'Message':'Owner play status changed.',
-                        'currentSettings':GameRoom[OwnerData['ownertoken']]['settings']}
-            else :
-                response.status_code = status.HTTP_400_BAD_REQUEST
-                return {'Message':'set owner status to play or not',}        
+            return {'Message':'Owner play status changed.',
+                    'currentSettings':GameRoom[OwnerData['ownertoken']]['settings']}
+            
+           
         
         else :
             response.status_code = status.HTTP_400_BAD_REQUEST
@@ -217,8 +221,22 @@ async def StartGame(token:str, response:Response):
     try:
         if token == OwnerData['ownertoken']:
             
-            msg = {'event':'Game is loading',}
-            await Notifall(msg , GameRoom[OwnerData['ownertoken']]['usersws'])
+            users = GameRoom[OwnerData['ownertoken']]['usersws']
+            spycounts = int(GameRoom[OwnerData['ownertoken']]['settings']['spycount'])
+            with open(path.join(os.getcwd(),'src', 'words.json'), 'r') as f :
+                words = json.load(f)    
+                
+            selectedWord = random.choice(words['words'])
+            
+            if len(users) > 0 :
+                spys = random.choices(users, k=spycounts)
+                    
+                for i in users:
+                    if i in spys:
+                        users.remove(i)
+                        
+            msg = {'event':'Game is loading', 'data':selectedWord}
+            await Notifall(msg , users)
                 
         else :
             response.status_code = status.HTTP_400_BAD_REQUEST
