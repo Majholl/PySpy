@@ -235,6 +235,8 @@ async def StartGame(token:str, response:Response):
                     if i in spys:
                         users.remove(i)
                         
+            msg = {'event':'Game is loading', 'data':'You are spy'}
+            await Notifall(msg , spys)          
             msg = {'event':'Game is loading', 'data':selectedWord}
             await Notifall(msg , users)
                 
