@@ -248,4 +248,29 @@ async def StartGame(token:str, response:Response):
         print(f'Error found in OwnerIn - {err}')
         return None
      
+     
+     
+     
+
+@app.post('/game/end')
+async def EndGame(token:str , response:Response) -> dict:
+    try:
+        if token == OwnerData['ownertoken']:
+            users = GameRoom[OwnerData['ownertoken']]['usersws']
+            for i in users:
+                await i.close()
+
+            GameRoom.clear()
+            return {'Message':'The Game closed.',}
+        
+        else :
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return {'Message':'the token does\'nt exits.',}
+                    
+    except Exception as err:
+        print(f'Error found in EndGame - {err}')
+        return None
+     
+    
+    
     
