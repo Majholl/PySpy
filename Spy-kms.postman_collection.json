@@ -1,0 +1,259 @@
+{
+  "info": {
+    "_postman_id": "604b4616-d20a-4125-9a11-8e102d6e1aa4",
+    "name": "Spy-kms",
+    "description": "جاسوس یه بازی گروهیه که تمرکز افراد شرکت کننده بر پیدا کردن جاسوس داخل بازی بر اساس سوال و جواب هست\n\nبکند مربوط به بازی جاسوس (spy) که نسخه ای مینیال و گروهی برای بازی کردن داخل جمع های کوچیک طراحی شده و برای دپلوی کردن اون روی سرور آماده شده\n\nکل endpoint های مربوط به بازی جاسوس (spygame)\n\nنوشته شده با :‌Pythone و FastAPI\n\nنسخه : v2.0\n\nآدرس پایه :  \n//127.0.0.1:8000\n\nنکته : سرور بازی روی پورت ۸۰۰۰ به صورت دیفالت اجرا میشود در صورت تمایل با دستور زیر تغییر دهید\n\n**fastapi run -p PORT**\n\nنکته : همچنین میتونید هاست رو هم با دستور زیر تغییر دهید\n\n**fastapi run -h HOSTNAME**",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40526151"
+  },
+  "item": [
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Room-data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/data?token=<str>",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "data"
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "<str>",
+                  "description": "توکن ادمین"
+                }
+              ]
+            },
+            "description": "این ایندپویت برای گرفتن تنظیمات روم بازی میباشد\n\nصرفا استفاده از توکن ادمین برای گرفتن اطلاعات کافی میباشد که در قسمت\n\n/auth/owner\n\nان را دریافت کردید"
+          },
+          "response": []
+        },
+        {
+          "name": "Login-Admin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/auth/owner?username=admin&password=admin",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "auth",
+                "owner"
+              ],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "description": "دیفالت admin"
+                },
+                {
+                  "key": "password",
+                  "value": "admin",
+                  "description": "دیفالت admin"
+                }
+              ]
+            },
+            "description": "این قسمت مربوط به وارد شدن بازی توسط ادمین میباشد\n\nبر اساس وارد شدن ادمین روم بازی شکل میگیرد\n\nمقادیر دیفالت برای ادمین :\n\n**username : admin**\n\n**password : admin  \n  \nبرقراری ارتباط با وبسوکت برای ادمین ها بعد از دریافت توکن لازم است**\n\n**چگونه ارتباط وبسوکت با سرور برقرار کنیم :  \nبرای برقراری ارتباط وبسوکت با سرور کافیه است که اندپوینت زیر رو کال کنید**\n\n**127.0.0.1:8000/ws/owner/**\n\n**نکته :‌ توکن (Token) را بعد از کال کردن همین اندپوینت دریافت کرده اید**"
+          },
+          "response": []
+        },
+        {
+          "name": "spys counts",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/setting/spys/?token=<str>&count =<int>",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "setting",
+                "spys",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "<str>",
+                  "description": "توکن ادمین"
+                },
+                {
+                  "key": "count ",
+                  "value": "<int>",
+                  "description": "تعداد جاسوس های بازی "
+                }
+              ]
+            },
+            "description": "این ایندپویت برای تنظیم تعداد جاسوس های داخل بازی میباشد\n\nتعیین تعداد جاسوس ها با مقدار\n\ncount : int  \nمیباشد\n\n**توجه : توکن ادمین برای کال کردن این اندپوینت را در قسمت قبل**\n\n**/auth/owner**\n\n**آن را دریافت کرده اید**"
+          },
+          "response": []
+        },
+        {
+          "name": "owner in Game",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/setting/ownerin/?token=<str>&ownerin =<bool>",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "setting",
+                "ownerin",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "<str>",
+                  "description": "توکن ادمین"
+                },
+                {
+                  "key": "ownerin ",
+                  "value": "<bool>",
+                  "description": "ادمین هم بازی کند یا نه "
+                }
+              ]
+            },
+            "description": "این ایندپویت برای این است که ایا ادمین هم بازی کند یا نه\n\nنکته : مقدار دیفالت آن (True) است یعنی ادمین هم در داخل بازی شرکت میکند\n\nتعیین این که ایا ادمین هم در بازی شرکت کند یا با مقدار\n\nownerin : bool  \nمیباشد\n\n**توجه : توکن ادمین برای کال کردن این اندپوینت را در قسمت قبل**\n\n**/auth/owner**\n\n**آن را دریافت کرده اید**"
+          },
+          "response": []
+        },
+        {
+          "name": "Owner defined word",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/setting/word/?token=<str>&word=<str>",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "setting",
+                "word",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "<str>",
+                  "description": "توکن ادمین"
+                },
+                {
+                  "key": "word",
+                  "value": "<str>",
+                  "description": "اگر ادمین هم بازی میکند کلمه مورد نظر ادمین چیه؟"
+                }
+              ]
+            },
+            "description": "این ایندپویت برای این است که اگر ادمین بازی نمیکند **کلمه انتخابی توسط ادمین برای بازی به اجرا در بیاید**\n\nبرای تعیین کلمه توسط ادمین در صورتی است که خودش نباید در بازی شرکت کند\n\nword: str  \nمیباشد\n\nبرای شرکت نکردن ادمین در بازی این اندپوینت را کال کنید\n\n/setting/ownerin/\n\n**توجه : توکن ادمین برای کال کردن این اندپوینت را در قسمت قبل**\n\n**/auth/owner**\n\n**آن را دریافت کرده اید**"
+          },
+          "response": []
+        }
+      ],
+      "description": "این فولدر تمام (endpoint) های مربوط به **ادمین** بازی میباشد\n\nنکته : ادمین بازی اجرا کننده و مدیریت کننده روم بازی هست که افراد بر اساس اون جوین بازی میشوند"
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "User login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/join/user?username=<str>",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "join",
+                "user"
+              ],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "<str>",
+                  "description": "اسم یوزر برای جوین شدن به بازی"
+                }
+              ]
+            },
+            "description": "کاربران شما برای شرکت در بازی میتوانند با وارد کردن (username) دلخواه و دریافت توکن خود وارد بازی شوند\n\nدقت کنید که توکن دریافتی برای برقراری ارتباط وبسوکت با سرور میباشد و لازم است که آن را نگه داری کنید\n\nچگونه ارتباط وبسوکت با سرور برقرار کنیم :  \nبرای برقراری ارتباط وبسوکت با سرور کافیه است که اندپوینت زیر رو کال کنید\n\n127.0.0.1:8000/ws/user/\n\nنکته :‌ توکن (Token) را بعد از کال کردن همین اندپوینت دریافت کرده اید"
+          },
+          "response": []
+        }
+      ],
+      "description": "اندپوینت های مربوط به جوین شدن یوزرها برای بازی !!"
+    },
+    {
+      "name": "Game behavior",
+      "item": [
+        {
+          "name": "Start game",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/game/start?token=<str>",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "game",
+                "start"
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "<str>",
+                  "description": "توکن ادمین "
+                }
+              ]
+            },
+            "description": "این اندپوینت برای اجرا بازی میباشد\n\nهمچنین این قسمت بر اساس تنظیمات اعمال شده بازی را به جریان در میاورد\n\nاین قسمت به توکن ادمین نیاز دارد\n\n**توجه : توکن ادمین برای کال کردن این اندپوینت را در قسمت قبل**\n\n**/auth/owner**\n\n**آن را دریافت کرده اید**"
+          },
+          "response": []
+        },
+        {
+          "name": "End game",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/game/end?token=<str>",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "game",
+                "end"
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "<str>",
+                  "description": "توکن ادمین"
+                }
+              ]
+            },
+            "description": "این اندپوینت برای پایان دادن به بازی میباشد\n\nاین قسمت به توکن ادمین نیاز دارد\n\n**توجه : توکن ادمین برای کال کردن این اندپوینت را در قسمت قبل**\n\n**/auth/owner**\n\n**آن را دریافت کرده اید**"
+          },
+          "response": []
+        }
+      ],
+      "description": "اندپوینت های مربوط به شروع و پایان دادن به بازی !!!"
+    }
+  ]
+}
