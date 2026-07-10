@@ -107,6 +107,13 @@ uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
 - `WS /ws/owner/{token}`
 - `WS /ws/user/{token}`
 
+## Postman collection
+برای استفاده از اندپوینت ها به  
+
+Spy-kms.postman_collection.json
+
+مراجعه کنید
+
 ## نکته
 
 این پروژه در حال حاضر یک نسخه‌ی ساده و اولیه از بازی Spy است و برای توسعه‌ی بیشتر مناسب می‌باشد.
