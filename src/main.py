@@ -2,6 +2,7 @@ import random, json
 from typing import Optional
 from os import path
 from fastapi import FastAPI , WebSocket, status 
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Response
 import os
 
@@ -11,6 +12,19 @@ from .utils import Notifall
 
 app = FastAPI(redoc_url='/uidoc')
 
+origins = [
+    "https://api.spy.infrairan.ir",
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 OwnerData = {
