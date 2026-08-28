@@ -13,10 +13,9 @@ from .utils import Notifall
 app = FastAPI(redoc_url='/uidoc')
 
 origins = [
-    "https://api.spy.infrairan.ir",
-    "http://localhost",
-    "http://localhost:8080",
+    "*",
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
